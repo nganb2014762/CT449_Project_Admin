@@ -1,0 +1,41 @@
+<template>
+    <div class="container">
+        <h4 class="text-center">Thêm sản phẩm</h4>
+        <div class="col-md-6 mx-auto">
+            <ProductForm :product="newProduct" @submit:product="addProduct" />
+        </div>
+    </div>
+</template>
+
+<script>
+import ProductForm from "@/components/admin/product/ProductForm.vue";
+import BookService from "@/services/product.service";
+export default {
+    components: {
+        ProductForm,
+    },
+    data() {
+        return {
+            newProduct: {
+                title: '',
+                author: '',
+                nxb: '',
+                namxb: '',
+                imageUrl: '',
+                quantity: '',
+            },
+        };
+    },
+    methods: {
+        async addProduct(data) {
+            try {
+                await BookService.create(data);
+                window.alert("Sản phẩm đã thêm thành công")
+                this.$router.push({ name: "book_manager" });
+            } catch (error) {
+                console.log(error);
+            }
+        },
+    },
+};
+</script>
